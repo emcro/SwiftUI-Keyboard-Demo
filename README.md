@@ -6,28 +6,78 @@ support it, listing out every keyboard shortcut available to the user. The user 
 
 ![⌘ Key Preview](http://cln.sh/lpJS+)
 
-The key components:
+## Full working example, super basic
+
+If all you want to do is add add Cmd-X key shortcuts to your tabs, literally all you need is the following:
 
 ### AppDelegate
+#### Add `override var keyCommands` which returns an array of `UIKeyCommand`, and a handler to handle those using NotificationCenter
 
 ```
-override var keyCommands: [UIKeyCommand]? {
-  return [UIKeyCommand(title: "Title", action: #selector(handleKeyCommand(sender:)), input: "1", modifierFlags: .command, propertyList: 1)]
-}
+import UIKit
 
-@objc func handleKeyCommand(sender: UIKeyCommand) {
-  // Handle the keyboard shortcuts via NotificationCenter, updating state through an ObservableObject, etc.
-}
-```
-
-### SwiftUI Views
-```
-.onReceive(<Binding, NotificationCenter, etc>, perform: { action in
-  if action {
-    // Perform some action, such as switching to a different tab, closing a modal, etc
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            UIKeyCommand(title: "First Tab", action: #selector(handleKeyCommand(sender:)), input: "1", modifierFlags: .command, propertyList: TabItem(tag: 1)),
+            
+            UIKeyCommand(title: "Second Tab", action: #selector(handleKeyCommand(sender:)), input: "2", modifierFlags: .command, propertyList: TabItem(tag: 2))
+        ]
+    }
+    
+    @objc func handleKeyCommand(sender: UIKeyCommand) {
+        if let tabItem = sender.propertyList as? TabItem {
+            
+            NotificationCenter.default.post(name: .init("switchTabs"), object: tabItem)
+        }
     }
 }
 ```
+
+### ContentView
+#### Add `onReceive` to handle the posted Notification and use the `selection` binding to jump to the correct tab
+
+```
+import SwiftUI
+
+struct ContentView: View {
+    @State private var selection = 1
+    
+    var body: some View {
+        TabView(selection: $selection){
+            Text("First View")
+                .tabItem {
+                    VStack {
+                        Image("first")
+                        Text("First")
+                    }
+            }
+            .tag(1)
+            
+            Text("Second View")
+                .tabItem {
+                    VStack {
+                        Image("second")
+                        Text("Second")
+                    }
+            }
+            .tag(2)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("switchTabs"))) { notification in
+            if let tabItem = notification.object as? TabItem {
+                self.selection = tabItem.tag
+            }
+        }
+    }
+}
+```
+
+----
+
+In the full demo, I also show how you can use an `ObservableObject` and state for a more complicated example, but 
+the basics are the same. The app will always look to the `keyCommands` defined in the AppDelegate, so based on the user's 
+current view, you would simply return a different array of `UIKeyCommand`.
 
 There's a more thorough walkthrough that I'll be writing up on Medium soon, but I wanted to get this out there as soon as 
 possible as I couldn't find *any* solution through Google or asking some of the great SwiftUI fans on Twitter and 
