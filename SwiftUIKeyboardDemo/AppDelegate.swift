@@ -10,28 +10,52 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
+    let store = Store()
+    
+    override var keyCommands: [UIKeyCommand]? {
+        var commands: [UIKeyCommand] = []
+        
+        if store.isModalPresented {
+            commands += [
+                UIKeyCommand(title: "Close", action: #selector(handleKeyCommand(sender:)), input: "`", propertyList: "closeModal"),
+                UIKeyCommand(title: "", action: #selector(handleKeyCommand(sender:)), input: UIKeyCommand.inputEscape, propertyList: "closeModal"),
+                UIKeyCommand(title: "", action: #selector(handleKeyCommand(sender:)), input: "W", modifierFlags: .command, propertyList: "closeModal")
+            ]
+        } else {
+            commands += [
+                UIKeyCommand(title: "First View", action: #selector(handleKeyCommand(sender:)), input: "1", modifierFlags: .command, propertyList: 1),
+                
+                UIKeyCommand(title: "Second View", action: #selector(handleKeyCommand(sender:)), input: "2", modifierFlags: .command, propertyList: 2)
+            ]
+            
+            // Add an Open Modal shortcut just when the second view is on screen
+            if store.currentView == "Second View" {
+                commands.append(UIKeyCommand(title: "Open Modal", action: #selector(handleKeyCommand(sender:)), input: "O", modifierFlags: .command, propertyList: "openModal"))
+            }
+        }
+        
+        return commands
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    
+    @objc func handleKeyCommand(sender: UIKeyCommand) {
+        if let tabTag = sender.propertyList as? Int {
+            NotificationCenter.default.post(name: .init("switchTabs"), object: tabTag)
+            return
+        }
+        
+        if let propertyList = sender.propertyList as? String {
+            switch propertyList {
+            case "openModal":
+                self.store.openSecondViewModal = true
+                return
+                
+            case "closeModal":
+                self.store.dismissModal = true
+                return
+                
+            default:
+                return
+            }
+        }
     }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
-
-
 }
-
