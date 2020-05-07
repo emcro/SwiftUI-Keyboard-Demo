@@ -101,7 +101,7 @@ the always-awesome-and-funny [Christian Selig](https://twitter.com/ChristianSeli
 for Reddit and though it was just too damn clever not use myself in my app:
 
 ```
-UIKeyCommand(title: "Close", action: #selector(handleKeyCommand(sender:)), input: "`", propertyList: "closeModal"),
+UIKeyCommand(title: "Close", action: #selector(handleKeyCommand(sender:)), input: "`", propertyList: "closeModal")
 
 ```
 
