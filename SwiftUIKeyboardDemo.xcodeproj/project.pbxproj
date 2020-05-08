@@ -13,6 +13,7 @@
 		32F53AC22464529B0001D762 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F53AC12464529B0001D762 /* Assets.xcassets */; };
 		32F53AC52464529B0001D762 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F53AC42464529B0001D762 /* Preview Assets.xcassets */; };
 		32F53AC82464529B0001D762 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32F53AC62464529B0001D762 /* LaunchScreen.storyboard */; };
+		E6F8CDE92465C24D00A2089A /* KeyCommandSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F8CDE82465C24D00A2089A /* KeyCommandSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		32F53AC42464529B0001D762 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		32F53AC72464529B0001D762 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		32F53AC92464529B0001D762 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6F8CDE82465C24D00A2089A /* KeyCommandSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCommandSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		32F53ABA246452970001D762 /* SwiftUIKeyboardDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E6F8CDE82465C24D00A2089A /* KeyCommandSupport.swift */,
 				32F53ABB246452970001D762 /* AppDelegate.swift */,
 				32F53ABD246452970001D762 /* SceneDelegate.swift */,
 				32F53ABF246452970001D762 /* ContentView.swift */,
@@ -149,6 +152,7 @@
 				32F53ABC246452970001D762 /* AppDelegate.swift in Sources */,
 				32F53ABE246452970001D762 /* SceneDelegate.swift in Sources */,
 				32F53AC0246452970001D762 /* ContentView.swift in Sources */,
+				E6F8CDE92465C24D00A2089A /* KeyCommandSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +293,7 @@
 				DEVELOPMENT_TEAM = 489M9V6472;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftUIKeyboardDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -309,6 +314,7 @@
 				DEVELOPMENT_TEAM = 489M9V6472;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SwiftUIKeyboardDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
